@@ -2,7 +2,7 @@ Package: metis
 Type: Package
 Title: MICOM Measurement Invariance and Multigroup Analysis for seminr PLS-SEM
 Version: 0.3.0
-Authors@R: person("Aaron", "Akuteye", email = "aaronakuteye@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Aaron", "Daniel", "Akuteye", email = "aaronakuteye@gmail.com", role = c("aut", "cre"))
 Description: A seminr-native implementation of the Measurement Invariance of
     Composite Models (MICOM) procedure of Henseler, Ringle and Sarstedt (2016)
     <doi:10.1108/IMR-09-2014-0304> for partial least squares structural
