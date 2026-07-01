@@ -1,0 +1,25 @@
+Package: metis
+Type: Package
+Title: MICOM Measurement Invariance and Multigroup Analysis for seminr PLS-SEM
+Version: 0.3.0
+Authors@R: person("Aaron", "Akuteye", email = "aaronakuteye@gmail.com", role = c("aut", "cre"))
+Description: A seminr-native implementation of the Measurement Invariance of
+    Composite Models (MICOM) procedure of Henseler, Ringle and Sarstedt (2016)
+    <doi:10.1108/IMR-09-2014-0304> for partial least squares structural
+    equation modelling, together with thin wrappers for bootstrap PLS multigroup
+    analysis and an optional permutation multigroup test. The MICOM Step 2
+    compositional invariance statistic uses deterministic composite sign
+    alignment and admissibility filtering of permutation re-estimations, and the
+    output reports permutation admissibility explicitly. Results have been
+    cross-verified against 'cSEM'::testMICOM across 54 datasets; 'cSEM' is used
+    only for validation and is never a runtime dependency.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: seminr, stats
+Suggests: cSEM, testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/aar0ndaniel/metis-MICOM
+BugReports: https://github.com/aar0ndaniel/metis-MICOM/issues

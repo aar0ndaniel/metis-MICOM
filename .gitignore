@@ -1,0 +1,25 @@
+# R build artifacts
+*.tar.gz
+*.Rcheck/
+..Rcheck/
+/*.Rout
+/src/*.o
+/src/*.so
+/src/*.dll
+
+# roxygen/vignette build output (regenerated)
+/doc/
+/Meta/
+/inst/doc/
+
+# RStudio / session
+.Rproj.user/
+*.Rproj
+.Rhistory
+.RData
+.Ruserdata
+.Renviron
+
+# OS
+.DS_Store
+Thumbs.db

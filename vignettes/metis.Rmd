@@ -1,0 +1,88 @@
+---
+title: "Measurement invariance and multigroup analysis with metis"
+author: "Aaron Akuteye"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Measurement invariance and multigroup analysis with metis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+set.seed(1)
+```
+
+## Overview
+
+`metis` runs the Measurement Invariance of Composite Models (MICOM) procedure of
+Henseler, Ringle and Sarstedt (2016) for a fitted `seminr` model, and provides
+wrappers for bootstrap PLS multigroup analysis. A two-group comparison of
+structural paths is defensible only when at least partial measurement invariance
+holds, so MICOM precedes multigroup analysis.
+
+## A fitted model and a grouping variable
+
+```{r, eval = requireNamespace("seminr", quietly = TRUE)}
+library(metis)
+library(seminr)
+
+data <- mobi
+data$group <- rep(c("A", "B"), length.out = nrow(data))
+
+mm <- constructs(
+  composite("Image",       multi_items("IMAG", 1:5)),
+  composite("Expectation", multi_items("CUEX", 1:3)),
+  composite("Quality",     multi_items("PERQ", 1:7))
+)
+sm <- relationships(
+  paths(from = "Image",       to = "Expectation"),
+  paths(from = "Expectation", to = "Quality")
+)
+model <- estimate_pls(data, mm, sm)
+```
+
+## Running MICOM
+
+```{r, eval = requireNamespace("seminr", quietly = TRUE)}
+mi <- metis_micom(model, data, group_var = "group", permutations = 500)
+mi$step2
+```
+
+The result reports the permutation admissibility of Step 2 explicitly.
+
+```{r, eval = requireNamespace("seminr", quietly = TRUE)}
+mi$admissibility
+mi$invariance$message
+```
+
+## Multigroup analysis, cautioned by MICOM
+
+```{r, eval = requireNamespace("seminr", quietly = TRUE)}
+mga <- metis_pls_mga(model, data, group_var = "group", nboot = 500,
+                     micom_result = mi)
+mga$paths
+```
+
+## Formative constructs
+
+Regression weights (`mode_B`) give formative composites. The same MICOM call
+applies without change.
+
+```{r, eval = FALSE}
+mm_formative <- constructs(
+  composite("Image",       multi_items("IMAG", 1:5), weights = mode_B),
+  composite("Expectation", multi_items("CUEX", 1:3), weights = mode_B)
+)
+```
+
+## Validation
+
+Step 2 and Step 3 results are cross-verified against `cSEM::testMICOM`. `cSEM` is
+a validation dependency only and is never required at runtime.
+
+## Reference
+
+Henseler, J., Ringle, C. M., & Sarstedt, M. (2016). Testing measurement
+invariance of composites using partial least squares. *International Marketing
+Review*, 33(3), 405-431.
